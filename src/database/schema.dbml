@@ -1,0 +1,51 @@
+Table "Bible" {
+  "VerseId" INTEGER [pk, not null]
+  "BookNumber" INTEGER [unique]
+  "ChapterNumber" INTEGER [unique]
+  "VerseNumber" INTEGER [unique]
+  "IsOmitted" BOOLEAN
+}
+
+Table "Language" {
+  "LanguageCode" VARCHAR [pk, not null]
+  "LanguageMepsSymbol" VARCHAR [unique, not null]
+  "LanguageName" VARCHAR
+  "LanguageVernacular" VARCHAR
+  "RsConfigSymbol" VARCHAR
+  "LibrarySymbol" VARCHAR
+  "IsSignLanguage" BOOLEAN
+  "LanguageScript" VARCHAR
+  "IsRTL" BOOLEAN
+  "HasWebContent" BOOLEAN
+  "IsCounted" BOOLEAN
+}
+
+Table "Edition" {
+  "EditionId" INTEGER [pk, not null]
+  "LanguageCode" INTEGER [unique, not null]
+  "Name" VARCHAR
+  "SymbolEdition" VARCHAR [unique]
+  "URL" VARCHAR
+}
+
+Table "Book" {
+  "BookId" INTEGER [pk, not null]
+  "EditionId" INTEGER [unique, not null]
+  "BookNumber" INTEGER [unique]
+  "StandardName" VARCHAR
+  "StandardAbbreviation" VARCHAR
+  "OfficialAbbreviation" VARCHAR
+  "StandardSingularBookName" VARCHAR
+  "StandardSingularAbbreviation" VARCHAR
+  "OfficialSingularAbbreviation" VARCHAR
+  "StandardPluralBookName" VARCHAR
+  "StandardPluralAbbreviation" VARCHAR
+  "OfficialPluralAbbreviation" VARCHAR
+  "RefreshedOnDate" DATETIME
+  "BookDisplayTitle" VARCHAR
+  "ChapterDisplayTitle" VARCHAR
+}
+
+Ref:"Language"."LanguageCode" < "Edition"."LanguageCode"
+
+Ref:"Edition"."EditionId" < "Book"."EditionId"
