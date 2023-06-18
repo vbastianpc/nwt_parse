@@ -1,0 +1,1 @@
+Parse bible citations and get scripture from NWT

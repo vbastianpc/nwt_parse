@@ -34,7 +34,6 @@ class BibleObject:
         self._book = book
         self._language = book.edition.language # shortcut
         self._edition = book.edition # shortcut
-        self._chapter = get.chapter(chapternumber, book)
         self.chapternumber = chapternumber
         self.verses = verses
 
@@ -65,14 +64,13 @@ class BibleObject:
 
     @chapternumber.setter
     def chapternumber(self, value: int | str | None) -> int | None:
-        if value is not None and select(Bible.id).where(
+        if value is not None and not session.query(Bible.id).where(
                 Bible.book == self.book.number,
                 Bible.chapter == int(value)
-            ).scalar() is None:
+            ).all():
             raise exc.ChapterNotExists(self.book.number, self.book.name, int(value))
         if isinstance(value, (str, int)):
             self._chapternumber = int(value)
-            self._chapter = get.chapter(self._chapternumber, self.book)
         elif value is None:
             self._chapternumber = None
             self._chapter = None
@@ -84,7 +82,6 @@ class BibleObject:
     def refresh(self):
         self._book = get.book(self._language.code, self._book.number)
         self._edition = self._book.edition
-        self._chapter = get.chapter(self.chapternumber, self._book)
         self._language = get.language(code=self._language.code)
 
     def set_booknum(self, booknum: int):
@@ -92,7 +89,6 @@ class BibleObject:
         if new_book:
             self._edition = new_book.edition
             self._book = new_book
-            self._chapter = get.chapter(self.chapternumber, new_book)
         else:
             raise exc.BookNotFound
 
@@ -103,7 +99,6 @@ class BibleObject:
             self._language = new_book.edition.language
             self._edition = new_book.edition
             self._book = new_book
-            self._chapter = get.chapter(self.chapternumber, new_book)
             return self
         else:
             if get.language(code=language_code):
