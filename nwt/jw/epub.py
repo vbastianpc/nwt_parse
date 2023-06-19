@@ -48,7 +48,6 @@ class BibleEpub(BiblePassage):
         )
         url = urlunsplit(('https', 'b.jw-cdn.org', '/apis/pub-media/GETPUBMEDIALINKS', urlencode(params), None))
         r = browser.open(url)
-        print(f'{r.status_code=!r}')
         assert r.status_code == 200
 
         url = r.json()['files'][self.language.meps_symbol]['EPUB'][0]['file']['url']
