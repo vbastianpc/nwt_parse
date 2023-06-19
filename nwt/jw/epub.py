@@ -67,7 +67,7 @@ class BibleEpub(BiblePassage):
     def epub_file(self) -> Path:
         return EPUB_PATH / f'nwt_{self.language.meps_symbol}.epub'
 
-    def get_text(self, fmt=HTML, head_url=True, versenum_url=True) -> str:
+    def get_text(self, fmt=None, head_url=True, versenum_url=True) -> str:
         return self.head(fmt, head_url) + '\n' + self.verse_texts(fmt, versenum_url)
 
     def head(self, fmt=None, with_url=False) -> str:
