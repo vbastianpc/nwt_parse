@@ -1,7 +1,7 @@
 
 from sqlalchemy import select
 
-from database.schema import Bible
+from .database.schema import Bible
 
 
 def last_chapter(booknum: int) -> int:

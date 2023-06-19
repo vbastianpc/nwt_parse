@@ -1,9 +1,9 @@
 from sqlalchemy import select
 
-from database import session
-from database.schema import Language
-from database.schema import Edition
-from database.schema import Book
+from . import session
+from .schema import Language
+from .schema import Edition
+from .schema import Book
 
 
 def sign_languages() -> list[Language]:

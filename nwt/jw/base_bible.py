@@ -5,13 +5,13 @@ from typing import TypeVar, Type, Self
 from unidecode import unidecode as ud
 from sqlalchemy import select
 
-from database import session
-from database import get
-from database.schema import Bible
-from database.schema import Book
-from database.schema import Edition
-from database.schema import Language
-import exc
+from ..database import session
+from ..database import get
+from ..database.schema import Bible
+from ..database.schema import Book
+from ..database.schema import Edition
+from ..database.schema import Language
+from .. import exc
 
 
 BO = TypeVar('BO', bound='BibleObject')
@@ -120,7 +120,7 @@ class BibleObject:
 
 
     @classmethod
-    def from_human(cls: Type[BO], citation: str, language_code: str) -> BO:
+    def from_citation(cls: Type[BO], citation: str, language_code: str) -> BO:
         book_like, chapternumber, verses = cls.parse_citation_regex(citation)
         try:
             book = cls.search_book(book_like, language_code=language_code)
@@ -201,8 +201,8 @@ class BibleObject:
     @staticmethod
     def search_book(book_like: str | None = None,
                     language_code: str | None = None,
-                    from_citation: str | None = None) -> Book | None:
-        book_like = BibleObject.parse_citation_regex(from_citation)[0] if from_citation else book_like
+                    citation: str | None = None) -> Book | None:
+        book_like = BibleObject.parse_citation_regex(citation)[0] if citation else book_like
         book_like = re.sub(' *', '', book_like).lower().replace('.', '')
         books = get.books(language_code=language_code)
         for book in books:
@@ -230,14 +230,14 @@ class BibleObject:
 
     @staticmethod
     def get_verses(verses_like: int | str | list[int | str] | None = None,
-                   from_citation: str | None = None) -> list[int | None]:
+                   citation: str | None = None) -> list[int | None]:
         """
         1  ->  [1]
         '1'  ->  [1]
         '1-3, 6, 7'  -> [1, 2, 3, 6, 7]
         """
-        if from_citation:
-            return BibleObject.get_verses(BibleObject.parse_citation_regex(from_citation)[2])
+        if citation:
+            return BibleObject.get_verses(BibleObject.parse_citation_regex(citation)[2])
         if isinstance(verses_like, int):
             return [verses_like]
         elif verses_like is None or verses_like == '':
@@ -302,7 +302,7 @@ class BibleObject:
 
 
 if __name__ == '__main__':
-    passage = BibleObject.from_human('Mat', 'es')
+    passage = BibleObject.from_citation('Mat', 'es')
 
 
     print('end')

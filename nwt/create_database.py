@@ -1,15 +1,14 @@
-# from pathlib import Path
-# Path('database.db').unlink()
+from pathlib import Path
+(Path(__file__).parent / 'database' / 'database.db').unlink(missing_ok=True)
 
 import sqlite3
 import xml.etree.ElementTree as ET
-from pathlib import Path
 from zipfile import ZipFile
-import time
+# from pathlib import Path
 
-from database import PATH_DB
-from database import fetch
-from utils import browser
+from .database import PATH_DB
+from .database import fetch
+from .utils import browser
 
 
 url = 'https://download-a.akamaihd.net/files/media_publication/96/nwt_E.jwpub'

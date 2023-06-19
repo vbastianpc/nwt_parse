@@ -1,11 +1,11 @@
 from sqlalchemy import select
 
-from utils import browser
-from database import session
-from database import get
-from database.schema import Edition
-from database.schema import Book
-from database.schema import Language
+from ..utils import browser
+from . import session
+from . import get
+from .schema import Edition
+from .schema import Book
+from .schema import Language
 
 
 def languages():

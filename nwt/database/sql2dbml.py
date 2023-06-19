@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.schema import CreateTable
 from sqlalchemy.exc import CompileError
 
-from database import PATH_DB
+from . import PATH_DB
 
 
 DBML_SCHEMA = Path(__file__).parent / 'schema.dbml'

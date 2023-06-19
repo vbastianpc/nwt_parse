@@ -4,10 +4,10 @@ import random
 from urllib.parse import urlunsplit
 from urllib.parse import urlencode
 from urllib.parse import unquote
-from utils import browser
 
-from database.schema import Book
-from jw.base_bible import BibleObject
+from ..utils import browser
+from ..database.schema import Book
+from .base_bible import BibleObject
 
 
 class Domain:

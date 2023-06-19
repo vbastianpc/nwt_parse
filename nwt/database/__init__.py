@@ -7,11 +7,11 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.engine import Engine
 from sqlalchemy.sql import text
 
-from database.schema import Base
-from database.views import views
+from .schema import Base
+from .views import views
 
 
-PATH_DB = Path('database.db')
+PATH_DB = (Path(__file__).parent / 'database.db').absolute()
 
 @event.listens_for(Engine, "connect")
 def set_sqlite_pragma(dbapi_connection, connection_record):

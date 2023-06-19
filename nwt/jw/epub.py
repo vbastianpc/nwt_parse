@@ -7,9 +7,9 @@ from urllib.parse import urlencode
 from bs4 import BeautifulSoup
 from bs4.element import NavigableString, Tag
 
-from jw.bible_passage import BiblePassage
-from utils import browser
-from database.schema import Book
+from .bible_passage import BiblePassage
+from ..utils import browser
+from ..database.schema import Book
 
 
 EPUB_PATH = Path('bible-epub')
